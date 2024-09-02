@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Phone Swipe</title>
+    <style>
+      :root {
+        --primary-bg: #f6f6f6;
+        --card-shadow: rgba(0, 0, 0, 0.3);
+        --text-color: #ffffff;
+        --button-border: #cccccc;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
+          sans-serif;
+        display: grid;
+        place-content: center;
+        min-height: 100vh;
+        overflow: hidden;
+        user-select: none;
+        background-color: gray;
+      }
+
+      .phone-container {
+        background: url("./images/iphone.webp") no-repeat;
+        background-size: contain;
+        width: 320px;
+        height: 640px;
+        display: flex;
+        filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3));
+      }
+
+      .app-interface {
+        background-color: var(--primary-bg);
+        width: 100%;
+        border-radius: 32px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        overflow: hidden;
+        position: relative;
+        padding: 16px 6px;
+        margin: 24px;
+      }
+
+      .app-header {
+        display: flex;
+        justify-content: center;
+      }
+
+      .app-logo {
+        width: 24px;
+        height: 24px;
+      }
+
+      .app-footer {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+        padding: 0 24px;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .footer-button {
+        background: url("./images/simple-svg-icons.svg") no-repeat;
+        background-size: 175px;
+        height: 32px;
+        width: 32px;
+        border-radius: 50%;
+        border: 1px solid var(--button-border);
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+
+      .footer-button:hover {
+        transform: scale(1.4);
+      }
+
+      .card-stack {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        margin: 0 auto;
+      }
+
+      .card {
+        border-radius: 8px;
+        box-shadow: 0 0 10px var(--card-shadow);
+        cursor: grab;
+        overflow: hidden;
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+
+      .card:nth-child(1) {
+        z-index: 3;
+      }
+
+      .card:nth-child(2) {
+        z-index: 2;
+        transform: scale(0.95);
+        opacity: 0.8;
+      }
+
+      .card:nth-child(3) {
+        z-index: 1;
+        transform: scale(0.9);
+        opacity: 0.6;
+      }
+
+      .card-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      .card-title {
+        color: var(--text-color);
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: flex-end;
+        height: 100%;
+        width: 100%;
+        padding: 16px;
+        z-index: 3;
+        background: linear-gradient(
+          to top,
+          rgba(0, 0, 0, 0.5) 20%,
+          transparent 60%
+        );
+      }
+
+      .card-subtitle {
+        margin-left: 6px;
+        font-size: 18px;
+        line-height: 1.4;
+        font-weight: 400;
+      }
+
+      .nope {
+        background-color: #ff4136;
+        color: white;
+      }
+
+      .like {
+        background-color: #2ecc40;
+        color: white;
+      }
+
+      .is-big {
+        background-size: 250px;
+        width: 48px;
+        height: 48px;
+      }
+
+      .is-undo {
+        background-position: -143px;
+      }
+
+      .is-remove {
+        background-position: -151px;
+      }
+
+      .is-start {
+        background-position: -72px;
+      }
+
+      .is-favorite {
+        background-position: -52px;
+      }
+
+      .is-zap {
+        background-position: -112px;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="phone-container">
+      <section class="app-interface">
+        <header class="app-header">
+          <img
+            src="./images/RA_logo.svg"
+            alt="Phone Swipe Logo"
+            class="app-logo"
+          />
+        </header>
+
+        <div class="card-stack">
+          <!-- Use your own cards -->
+          <article class="card">
+            <img
+              src="./images/snoop.jpg"
+              alt="Snoop Concert"
+              class="card-image"
+            />
+            <h2 class="card-title">
+              Snoop <span class="card-subtitle">Concert</span>
+            </h2>
+          </article>
+          <article class="card">
+            <img
+              src="./images/jazz.jpg"
+              alt="Jazz Festival"
+              class="card-image"
+            />
+            <h2 class="card-title">
+              Jazz <span class="card-subtitle">Festival</span>
+            </h2>
+          </article>
+          <article class="card">
+            <img
+              src="./images/rock.jpg"
+              alt="Rock Concert"
+              class="card-image"
+            />
+            <h2 class="card-title">
+              Rock <span class="card-subtitle">Concert</span>
+            </h2>
+          </article>
+        </div>
+
+        <footer class="app-footer">
+          <button class="footer-button is-undo" aria-label="Undo"></button>
+          <button
+            class="footer-button is-remove is-big"
+            aria-label="Remove"
+          ></button>
+          <button class="footer-button is-start" aria-label="Start"></button>
+          <button
+            class="footer-button is-favorite is-big"
+            aria-label="Favorite"
+          ></button>
+          <button class="footer-button is-zap" aria-label="Zap"></button>
+        </footer>
+      </section>
+    </main>
+
+    <script>
+      let isAnimating = false;
+      let pullDeltaX = 0;
+      let deg = 0;
+      let startX = 0;
+      let activeCard = null;
+
+      function startDrag(event) {
+        if (isAnimating) return;
+
+        activeCard = document.querySelector(".card:nth-of-type(1)");
+        if (!activeCard) return;
+
+        startX = event.pageX || event.touches[0].pageX;
+
+        document.addEventListener("mousemove", onMove);
+        document.addEventListener("mouseup", onEnd);
+        document.addEventListener("touchmove", onMove, { passive: true });
+        document.addEventListener("touchend", onEnd, { passive: true });
+      }
+
+      function onMove(event) {
+        if (!activeCard) return;
+
+        let x = event.pageX || event.touches[0].pageX;
+        pullDeltaX = x - startX;
+        deg = pullDeltaX / 10;
+
+        activeCard.style.transform = `translateX(${pullDeltaX}px) rotate(${deg}deg)`;
+
+        const opacity = Math.min(Math.abs(pullDeltaX) / 100, 1);
+        const isRight = pullDeltaX > 0;
+        const color = isRight ? "#2ecc40" : "#ff4136";
+
+        activeCard.style.backgroundColor = `rgba(${parseInt(
+          color.slice(1, 3),
+          16
+        )}, ${parseInt(color.slice(3, 5), 16)}, ${parseInt(
+          color.slice(5, 7),
+          16
+        )}, ${opacity})`;
+      }
+
+      function onEnd() {
+        document.removeEventListener("mousemove", onMove);
+        document.removeEventListener("mouseup", onEnd);
+        document.removeEventListener("touchmove", onMove);
+        document.removeEventListener("touchend", onEnd);
+
+        if (!activeCard) return;
+
+        isAnimating = true;
+        const threshold = 100;
+
+        if (Math.abs(pullDeltaX) > threshold) {
+          const endX =
+            pullDeltaX > 0 ? window.innerWidth * 1.5 : -window.innerWidth * 1.5;
+          activeCard.style.transition =
+            "transform 0.5s ease, opacity 0.5s ease";
+          activeCard.style.transform = `translateX(${endX}px) rotate(${deg}deg)`;
+          activeCard.style.opacity = "0";
+          setTimeout(() => {
+            activeCard.remove();
+            shiftCards();
+            resetGlobals();
+          }, 500);
+        } else {
+          activeCard.style.transition =
+            "transform 0.3s ease, background 0.3s ease";
+          activeCard.style.transform = "translateX(0px) rotate(0deg)";
+          activeCard.style.backgroundColor = "transparent";
+          setTimeout(resetGlobals, 300);
+        }
+      }
+
+      function shiftCards() {
+        const cards = document.querySelectorAll(".card");
+        cards.forEach((card, index) => {
+          card.style.zIndex = cards.length - index;
+          card.style.transform = `scale(${0.9 + index * 0.05})`;
+          card.style.opacity = 0.6 + index * 0.2;
+        });
+      }
+
+      function resetGlobals() {
+        isAnimating = false;
+        pullDeltaX = 0;
+        deg = 0;
+        startX = 0;
+        activeCard = null;
+      }
+
+      document.addEventListener("mousedown", startDrag);
+      document.addEventListener("touchstart", startDrag, { passive: true });
+    </script>
+  </body>
+</html>
